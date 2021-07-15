@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const uuid = require('uuid');
 
 const MessageSchema = mongoose.Schema({
   message: {
@@ -8,7 +7,6 @@ const MessageSchema = mongoose.Schema({
   },
   id: {
     type: Number,
-    reqired: true,
   },
 });
 

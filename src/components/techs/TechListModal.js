@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getTechs } from '../../actions/techActions';
 
-const TechListModal = ({ tech: { techs, loading }, getTechs }) => {
+const TechListModal = ({ person: { persons, loading }, getTechs }) => {
   useEffect(() => {
     getTechs();
     // eslint-disable-next-line
@@ -26,8 +26,8 @@ const TechListModal = ({ tech: { techs, loading }, getTechs }) => {
         <h4>Person list</h4>
         <ul className='collection'>
           {!loading &&
-            techs !== null &&
-            techs.map((i) => <TechItem tech={i} key={i.id} />)}
+            persons !== null &&
+            persons.map((i) => <TechItem person={i} key={i._id} />)}
         </ul>
       </div>
     </div>
@@ -36,11 +36,11 @@ const TechListModal = ({ tech: { techs, loading }, getTechs }) => {
 
 TechListModal.propTypes = {
   getTechs: PropTypes.func.isRequired,
-  tech: PropTypes.object.isRequired,
+  person: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  tech: state.tech,
+  person: state.person,
 });
 
 export default connect(mapStateToProps, { getTechs })(TechListModal);

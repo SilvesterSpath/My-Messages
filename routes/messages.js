@@ -1,14 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const { check, validationResult } = require('express-validator/check');
-const uuid = require('uuid');
+const { check, validationResult } = require('express-validator');
 const Message = require('../models/Message');
 
 // @route GET api/messages
 // @desc Get all messages
 // @access Public
-router.get('/', (req, res) => {
-  res.send('Get all messages');
+router.get('/', async (req, res) => {
+  try {
+    const messages = await Message.find({});
+    res.json(messages);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Error');
+  }
 });
 
 // @route POST api/messages
@@ -17,20 +22,25 @@ router.get('/', (req, res) => {
 router.post(
   '/',
   [check('message', 'Message is required!').not().isEmpty()],
+  [check('attention', 'Attention is required!').not().isEmpty()],
+  [check('person', 'Person is required!').not().isEmpty()],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { message } = req.body;
+    const { message, attention, person, date } = req.body;
 
     try {
-      const person = new Message({
+      const newMessage = new Message({
         message,
+        attention,
+        person,
+        date,
       });
 
-      await person.save();
-      res.send('Message saved');
+      const newM = await newMessage.save();
+      res.json(newM);
     } catch (error) {
       console.error(error.message);
       res.status(500).send('Server Error');

@@ -6,11 +6,13 @@ import { deleteLog, setCurrent } from '../../actions/logActions';
 
 import M from 'materialize-css/dist/js/materialize.min.js';
 
-const LogItem = ({ log, deleteLog, setCurrent }) => {
+const LogItem = ({ message, deleteLog, setCurrent }) => {
   const onDelete = () => {
-    deleteLog(log.id);
+    deleteLog(message._id);
     M.toast({ html: 'Log Deleted' });
   };
+
+  console.log(message);
 
   return (
     <li className='collection-item'>
@@ -18,20 +20,20 @@ const LogItem = ({ log, deleteLog, setCurrent }) => {
         <a
           href='#edit-log-modal'
           className={`modal-trigger ${
-            log.attention ? 'red-text' : 'blue-text'
+            message.attention ? 'red-text' : 'blue-text'
           }`}
-          onClick={() => setCurrent(log)}
+          onClick={() => setCurrent(message)}
         >
-          {log.views === 0 ? 'Message no more available!' : log.message}
+          {message.message}
         </a>
         <br />
         <span className='grey-text'>
-          <span className='black-text'>ID #{log.id} </span>
+          <span className='black-text'>ID #{message._id} </span>
           last updated by:
-          <span className='black-text'> {log.tech} </span>
+          <span className='black-text'> {message.person} </span>
           Number of views left:
-          <span className='black-text'> {log.views} </span>
-          on <Moment format='MMMM Do YYYY, h:mm:ss a'>{log.date}</Moment>
+          <span className='black-text'> {message.attention} </span>
+          on <Moment format='MMMM Do YYYY, h:mm:ss a'>{message.date}</Moment>
         </span>
         <a href='#!' className='secondary-content' onClick={onDelete}>
           <i className='material-icons grey-text'>delete</i>
@@ -42,7 +44,7 @@ const LogItem = ({ log, deleteLog, setCurrent }) => {
 };
 
 LogItem.propTypes = {
-  log: PropTypes.object.isRequired,
+  message: PropTypes.object.isRequired,
   deleteLog: PropTypes.func.isRequired,
   setCurrent: PropTypes.func.isRequired,
 };

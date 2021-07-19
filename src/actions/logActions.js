@@ -9,6 +9,7 @@ import {
   UPDATE_LOG,
   SEARCH_LOGS,
 } from './types';
+import axios from 'axios';
 
 /* export const getLogs = () => {
   return async (dispatch) => {
@@ -29,29 +30,31 @@ export const getLogs = () => async (dispatch) => {
   try {
     setLoading();
 
-    const res = await fetch('/logs');
-    const data = await res.json();
+    const res = await axios.get('api/messages');
+    console.log(res);
+
+    console.log(res.data);
 
     dispatch({
       type: GET_LOGS,
-      payload: data,
+      payload: res.data,
     });
   } catch (error) {
     dispatch({
       type: LOGS_ERROR,
-      payload: error.response.statusText,
+      payload: error.response.message,
     });
   }
 };
 
 // Add new log
-export const addLog = (log) => async (dispatch) => {
+export const addLog = (message) => async (dispatch) => {
   try {
     setLoading();
 
-    const res = await fetch('/logs', {
+    const res = await fetch('api/messages', {
       method: 'POST',
-      body: JSON.stringify(log),
+      body: JSON.stringify(message),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -65,7 +68,7 @@ export const addLog = (log) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: LOGS_ERROR,
-      payload: error.response.statusText,
+      payload: error.response.message,
     });
   }
 };
@@ -75,7 +78,7 @@ export const deleteLog = (id) => async (dispatch) => {
   try {
     setLoading();
 
-    await fetch(`/logs/${id}`, {
+    await fetch(`api/messages/${id}`, {
       method: 'DELETE',
     });
 
@@ -86,19 +89,19 @@ export const deleteLog = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: LOGS_ERROR,
-      payload: error.response.statusText,
+      payload: error.response.message,
     });
   }
 };
 
 // Update log on server
-export const updateLog = (log) => async (dispatch) => {
+export const updateLog = (message) => async (dispatch) => {
   try {
     setLoading();
 
-    const res = await fetch(`/logs/${log.id}`, {
+    const res = await fetch(`api/messages/${message.id}`, {
       method: 'PUT',
-      body: JSON.stringify(log),
+      body: JSON.stringify(message),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -113,7 +116,7 @@ export const updateLog = (log) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: LOGS_ERROR,
-      payload: error.response.statusText,
+      payload: error.response.message,
     });
   }
 };
@@ -123,7 +126,7 @@ export const searchLogs = (text) => async (dispatch) => {
   try {
     setLoading();
 
-    const res = await fetch(`/logs?q=${text}`);
+    const res = await fetch(`api/messages?q=${text}`);
     const data = await res.json();
 
     dispatch({
@@ -133,16 +136,16 @@ export const searchLogs = (text) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: LOGS_ERROR,
-      payload: error.response.statusText,
+      payload: error.response.message,
     });
   }
 };
 
 // Set Current log
-export const setCurrent = (log) => {
+export const setCurrent = (message) => {
   return {
     type: SET_CURRENT,
-    payload: log,
+    payload: message,
   };
 };
 

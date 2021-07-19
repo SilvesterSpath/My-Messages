@@ -9,28 +9,27 @@ import TechSelectOptions from '../techs/TechSelectOptions';
 const AddLogModal = ({ addLog }) => {
   const [message, setMessage] = useState([]);
   const [attention, setAttention] = useState(false);
-  const [tech, setTech] = useState('');
+  const [person, setPerson] = useState('');
 
   const onSubmit = async () => {
-    if (message === '' || tech === '') {
+    if (message === '' || person === '') {
       M.toast({ html: 'Please enter a message and person' });
     } else {
-      const salt = await bcrypt.genSalt(5);
-      const secretMessage = await bcrypt.hash(message, salt);
+      /* const salt = await bcrypt.genSalt(5);
+      const secretMessage = await bcrypt.hash(message, salt); */
       const newLog = {
         message,
-        hashedMessage: secretMessage,
         attention,
-        tech,
+        person,
         date: new Date(),
       };
 
       addLog(newLog);
 
-      M.toast({ html: `Log added by ${tech}` });
+      M.toast({ html: `Log added by ${person}` });
       // Clear Fields
       setMessage('');
-      setTech('');
+      setPerson('');
       setAttention(false);
     }
   };
@@ -55,10 +54,10 @@ const AddLogModal = ({ addLog }) => {
         <div className='row'>
           <div className='input-field'>
             <select
-              name='tech'
-              value={tech}
+              name='person'
+              value={person}
               className='browser-default'
-              onChange={(e) => setTech(e.target.value)}
+              onChange={(e) => setPerson(e.target.value)}
             >
               <option value=''>Select Person</option>
 

@@ -11,7 +11,7 @@ import {
 } from '../actions/types';
 
 const initialState = {
-  logs: null,
+  messages: null,
   current: null,
   loading: false,
   error: null,
@@ -22,28 +22,28 @@ const logReducer = (state = initialState, action) => {
     case GET_LOGS:
       return {
         ...state,
-        logs: action.payload,
+        messages: action.payload,
         loading: false,
       };
 
     case ADD_LOG:
       return {
         ...state,
-        logs: [...state.logs, action.payload],
+        messages: [...state.messages, action.payload],
         loading: false,
       };
 
     case DELETE_LOG:
       return {
         ...state,
-        logs: state.logs.filter((i) => i.id !== action.payload),
+        messages: state.messages.filter((i) => i.id !== action.payload),
         loading: false,
       };
 
     case UPDATE_LOG:
       return {
         ...state,
-        logs: state.logs.map((i) =>
+        messages: state.messages.map((i) =>
           i.id === action.payload.id ? action.payload : i
         ),
       };
@@ -51,7 +51,7 @@ const logReducer = (state = initialState, action) => {
     case SEARCH_LOGS:
       return {
         ...state,
-        logs: action.payload,
+        messages: action.payload,
         loading: false,
       };
 

@@ -7,7 +7,7 @@ import {
 } from '../actions/types';
 
 const initialState = {
-  techs: null,
+  persons: null,
   loading: false,
   error: null,
 };
@@ -17,21 +17,21 @@ const techReducer = (state = initialState, action) => {
     case GET_TECHS:
       return {
         ...state,
-        techs: action.payload,
+        persons: action.payload,
         loading: false,
       };
 
     case ADD_TECH:
       return {
         ...state,
-        techs: [...state.techs, action.payload],
+        persons: [...state.persons, action.payload],
         loading: false,
       };
 
     case DELETE_TECH:
       return {
         ...state,
-        techs: state.techs.filter((i) => i.id !== action.payload),
+        persons: state.persons.filter((i) => i.id !== action.payload),
         loading: false,
       };
 

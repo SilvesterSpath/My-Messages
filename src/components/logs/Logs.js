@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getLogs } from '../../actions/logActions';
 
-const Logs = ({ log: { logs, loading }, getLogs }) => {
+const Logs = ({ message: { messages, loading }, getLogs }) => {
   useEffect(() => {
     getLogs();
     // eslint-disable-next-line
@@ -21,7 +21,7 @@ const Logs = ({ log: { logs, loading }, getLogs }) => {
     setLoading(false);
   }; */
 
-  if (loading || logs === null) {
+  if (loading || messages === null) {
     return <Preloader />;
   }
 
@@ -30,22 +30,22 @@ const Logs = ({ log: { logs, loading }, getLogs }) => {
       <li>
         <h4 className='center'>Messages</h4>
       </li>
-      {!loading && logs.length === 0 ? (
+      {!loading && messages.length === 0 ? (
         <p className='center'>No logs to show...</p>
       ) : (
-        logs.map((i) => <LogItem log={i} key={i.id} />)
+        messages && messages.map((i) => <LogItem message={i} key={i._id} />)
       )}
     </ul>
   );
 };
 
 Logs.propTypes = {
-  log: PropTypes.object.isRequired,
+  message: PropTypes.object.isRequired,
   getLogs: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  log: state.log,
+  message: state.message,
 });
 
 export default connect(mapStateToProps, { getLogs })(Logs);

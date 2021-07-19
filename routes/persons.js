@@ -1,8 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const { check, validationResult } = require('express-validator/check');
+const { check, validationResult } = require('express-validator');
 
 const Person = require('../models/Person');
+
+// @route GET api/persons
+// @desc Get all persons
+// @access Public
+router.get('/', async (req, res) => {
+  try {
+    const persons = await Person.find({});
+    res.json(persons);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 // @route POST api/persons
 // @desc Register a person
@@ -26,8 +39,8 @@ router.post(
         lastName,
       });
 
-      await person.save();
-      res.send('Person saved');
+      const newPerson = await person.save();
+      res.json(newPerson);
     } catch (error) {
       console.error(error.message);
       res.status(500).send('Server Error');

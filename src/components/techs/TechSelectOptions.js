@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getTechs } from '../../actions/techActions';
 
-const TechSelectOptions = ({ tech: { techs, loading }, getTechs }) => {
+const TechSelectOptions = ({ person: { persons, loading }, getTechs }) => {
   useEffect(() => {
     getTechs();
     // eslint-disable-next-line
@@ -11,9 +11,9 @@ const TechSelectOptions = ({ tech: { techs, loading }, getTechs }) => {
 
   return (
     !loading &&
-    techs != null &&
-    techs.map((i) => (
-      <option key={i.id} value={`${i.firstName} ${i.lastName}`}>
+    persons != null &&
+    persons.map((i) => (
+      <option key={i._id} value={`${i.firstName} ${i.lastName}`}>
         {i.firstName} {i.lastName}
       </option>
     ))
@@ -21,12 +21,12 @@ const TechSelectOptions = ({ tech: { techs, loading }, getTechs }) => {
 };
 
 TechSelectOptions.propTypes = {
-  tech: PropTypes.object.isRequired,
+  person: PropTypes.object.isRequired,
   getTechs: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  tech: state.tech,
+  person: state.person,
 });
 
 export default connect(mapStateToProps, { getTechs })(TechSelectOptions);

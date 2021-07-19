@@ -5,16 +5,16 @@ import { deleteTech } from '../../actions/techActions';
 
 import M from 'materialize-css/dist/js/materialize.min.js';
 
-const TechItem = ({ tech, deleteTech }) => {
+const TechItem = ({ person, deleteTech }) => {
   const onDelete = () => {
-    deleteTech(tech.id);
+    deleteTech(person._id);
     M.toast({ html: 'Tech Deleted' });
   };
 
   return (
     <li className='collection-item'>
       <div>
-        {tech.firstName} {tech.lastName}
+        {person.firstName} {person.lastName}
         <a href='#!' className='secondary-content'>
           <i className='material-icons grey-text' onClick={onDelete}>
             delete
@@ -26,7 +26,7 @@ const TechItem = ({ tech, deleteTech }) => {
 };
 
 TechItem.propTypes = {
-  tech: PropTypes.object.isRequired,
+  person: PropTypes.object.isRequired,
   deleteTech: PropTypes.func.isRequired,
 };
 

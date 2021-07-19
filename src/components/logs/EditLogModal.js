@@ -8,32 +8,32 @@ import TechSelectOptions from '../techs/TechSelectOptions';
 const EditLogModal = ({ updateLog, current }) => {
   const [message, setMessage] = useState([]);
   const [attention, setAttention] = useState(false);
-  const [tech, setTech] = useState('');
+  const [person, setPerson] = useState('');
 
   useEffect(() => {
     if (current) {
       setMessage(current.message);
       setAttention(current.attention);
-      setTech(current.tech);
+      setPerson(current.person);
     }
   }, [current]);
 
   const onSubmit = () => {
-    if (message === '' || tech === '') {
+    if (message === '' || person === '') {
       M.toast({ html: 'Please enter a message and person' });
     } else {
       updateLog({
         id: current.id,
         message: message,
         attention: attention,
-        tech: tech,
+        person: person,
         date: new Date(),
       });
-      M.toast({ html: `Log updated by ${tech}` });
+      M.toast({ html: `Log updated by ${person}` });
 
       // Clear Fields
       setMessage('');
-      setTech('');
+      setPerson('');
       setAttention(false);
     }
   };
@@ -55,10 +55,10 @@ const EditLogModal = ({ updateLog, current }) => {
         <div className='row'>
           <div className='input-field'>
             <select
-              name='tech'
-              value={tech}
+              name='person'
+              value={person}
               className='browser-default'
-              onChange={(e) => setTech(e.target.value)}
+              onChange={(e) => setPerson(e.target.value)}
             >
               <option value=''>Select Person</option>
 
@@ -107,7 +107,7 @@ EditLogModal.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  current: state.log.current,
+  current: state.message.current,
 });
 
 export default connect(mapStateToProps, { updateLog })(EditLogModal);

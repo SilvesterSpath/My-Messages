@@ -1,0 +1,9 @@
+export const ADD_MESSAGE = 'ADD_MESSAGE';
+export const DELET_MESSAGE = 'DELET_MESSAGE';
+export const SET_CURRETNT = 'SET_CURRETNT';
+export const CLEAR_CURRENT = 'CLEAR_CURRENT';
+export const UPDATE_MESSAGE = 'UPDATE_MESSAGE';
+export const FILTER_MESSAGE = 'FILTER_MESSAGE';
+export const CLEAR_FILTER = 'CLEAR_FILTER';
+export const SET_ALERT = 'SET_ALERT';
+export const REMOVE_ALERT = 'REMOVE_ALERT';

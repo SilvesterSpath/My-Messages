@@ -78,7 +78,7 @@ export const deleteLog = (id) => async (dispatch) => {
   try {
     setLoading();
 
-    await fetch(`api/messages/${id}`, {
+    await fetch(`/api/messages/${id}`, {
       method: 'DELETE',
     });
 
@@ -99,7 +99,7 @@ export const updateLog = (message) => async (dispatch) => {
   try {
     setLoading();
 
-    const res = await fetch(`api/messages/${message.id}`, {
+    const res = await axios.put(`/api/messages/${message.id}`, {
       method: 'PUT',
       body: JSON.stringify(message),
       headers: {
@@ -107,16 +107,18 @@ export const updateLog = (message) => async (dispatch) => {
       },
     });
 
+    console.log(res);
+
     const data = await res.json();
 
     dispatch({
       type: UPDATE_LOG,
-      payload: data,
+      payload: res.data,
     });
   } catch (error) {
     dispatch({
       type: LOGS_ERROR,
-      payload: error.response.message,
+      payload: error.statusText,
     });
   }
 };

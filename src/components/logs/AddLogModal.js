@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import M from 'materialize-css/dist/js/materialize.min.js';
-import bcrypt from 'bcryptjs';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addLog } from '../../actions/logActions';

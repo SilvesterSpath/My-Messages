@@ -33,7 +33,7 @@ export const addTech = (person) => async (dispatch) => {
   try {
     setLoading();
 
-    const res = await fetch('/persons', {
+    const res = await fetch('api/persons', {
       method: 'POST',
       body: JSON.stringify(person),
       headers: {

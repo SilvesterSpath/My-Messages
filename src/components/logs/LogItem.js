@@ -31,8 +31,6 @@ const LogItem = ({ message, deleteLog, setCurrent }) => {
           <span className='black-text'>ID #{message._id} </span>
           last updated by:
           <span className='black-text'> {message.person} </span>
-          Number of views left:
-          <span className='black-text'> {message.attention} </span>
           on <Moment format='MMMM Do YYYY, h:mm:ss a'>{message.date}</Moment>
         </span>
         <a href='#!' className='secondary-content' onClick={onDelete}>

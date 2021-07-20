@@ -36,7 +36,7 @@ const logReducer = (state = initialState, action) => {
     case DELETE_LOG:
       return {
         ...state,
-        messages: state.messages.filter((i) => i.id !== action.payload),
+        messages: state.messages.filter((i) => i._id !== action.payload),
         loading: false,
       };
 
@@ -44,7 +44,7 @@ const logReducer = (state = initialState, action) => {
       return {
         ...state,
         messages: state.messages.map((i) =>
-          i.id === action.payload.id ? action.payload : i
+          i._id === action.payload.id ? action.payload : i
         ),
       };
 

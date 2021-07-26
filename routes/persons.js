@@ -51,8 +51,19 @@ router.post(
 // @route DELETE api/persons/:id
 // @desc Delete a person
 // @access Public
-router.delete('/:id', (req, res) => {
-  res.send('Delete a person');
+router.delete('/:id', async (req, res) => {
+  try {
+    let person = await Person.findById(req.params.id);
+    if (!person) {
+      return res.status(404).json({ message: 'Person not found' });
+    }
+    await Person.findByIdAndRemove(req.params.id);
+
+    res.json({ message: 'Contact Removed!' });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Error');
+  }
 });
 
 module.exports = router;

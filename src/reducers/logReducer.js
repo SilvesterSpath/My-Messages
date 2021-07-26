@@ -44,7 +44,7 @@ const logReducer = (state = initialState, action) => {
       return {
         ...state,
         messages: state.messages.map((i) =>
-          i._id === action.payload.id ? action.payload : i
+          i._id === action.payload._id ? action.payload : i
         ),
       };
 

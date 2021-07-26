@@ -51,15 +51,51 @@ router.post(
 // @route PUT api/messages/:id
 // @desc Update a message
 // @access Public
-router.put('/:id', (req, res) => {
-  res.send('Update a message');
+router.put('/:id', async (req, res) => {
+  const { person, message, attention } = req.body;
+
+  // Build a contact object
+  const messageFields = {};
+  if (person) messageFields.person = person;
+  if (message) messageFields.message = message;
+  if (attention) messageFields.attention = attention;
+
+  try {
+    let message = await Message.findById(req.params.id);
+    if (!message) {
+      return res.status(404).json({ message: 'Message not found' });
+    }
+
+    // Now make the actual update
+    message = await Message.findByIdAndUpdate(
+      req.params.id,
+      { $set: messageFields },
+      { new: true }
+    );
+
+    res.json(message);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Error');
+  }
 });
 
 // @route DELETE api/messages/:id
 // @desc Delete a message
 // @access Public
-router.delete('/:id', (req, res) => {
-  res.send('Delete a message');
+router.delete('/:id', async (req, res) => {
+  try {
+    let message = await Message.findById(req.params.id);
+    if (!message) {
+      return res.status(404).json({ message: 'Message not found' });
+    }
+    await Message.findByIdAndRemove(req.params.id);
+
+    res.json({ message: 'Message Removed!' });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Error');
+  }
 });
 
 module.exports = router;

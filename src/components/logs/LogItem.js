@@ -12,8 +12,6 @@ const LogItem = ({ message, deleteLog, setCurrent }) => {
     M.toast({ html: 'Log Deleted' });
   };
 
-  console.log(message);
-
   return (
     <li className='collection-item'>
       <div>

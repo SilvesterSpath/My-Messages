@@ -14,7 +14,6 @@ export const getTechs = () => async (dispatch) => {
 
     const res = await axios.get('api/persons');
     /* const data = await res.json(); */
-    console.log(res.data);
 
     dispatch({
       type: GET_TECHS,

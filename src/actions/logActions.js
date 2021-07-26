@@ -31,9 +31,6 @@ export const getLogs = () => async (dispatch) => {
     setLoading();
 
     const res = await axios.get('api/messages');
-    console.log(res);
-
-    console.log(res.data);
 
     dispatch({
       type: GET_LOGS,
@@ -99,7 +96,7 @@ export const updateLog = (message) => async (dispatch) => {
   try {
     setLoading();
 
-    const res = await axios.put(`/api/messages/${message.id}`, {
+    const res = await fetch(`/api/messages/${message.id}`, {
       method: 'PUT',
       body: JSON.stringify(message),
       headers: {
@@ -107,13 +104,11 @@ export const updateLog = (message) => async (dispatch) => {
       },
     });
 
-    console.log(res);
-
     const data = await res.json();
 
     dispatch({
       type: UPDATE_LOG,
-      payload: res.data,
+      payload: data,
     });
   } catch (error) {
     dispatch({

@@ -8,7 +8,7 @@ const TechListModal = ({ person: { persons, loading }, getTechs }) => {
   useEffect(() => {
     getTechs();
     // eslint-disable-next-line
-  }, []);
+  }, [persons]);
 
   /*   const getTechs = async () => {
     setLoading(true);

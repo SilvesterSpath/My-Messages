@@ -1,1 +1,148 @@
 mongodb+srv://swx76:<password>@messageboard.o5fne.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+
+
+
+Looks like they changed how the create-react-app utilizes a proxy. Remove the proxy from the package.json. Then...
+
+Add this package:
+
+npm i -S http-proxy-middleware
+
+Then create a setupProxy.js in src:
+
+src/setupProxy.js
+
+const proxy = require("http-proxy-middleware");
+
+module.exports = app => {
+  app.use(proxy("/api/*", { target: "http://localhost:5000/" }));
+};
+
+Now from inside the React component, you can do this:
+
+src/App.js
+
+import React, { Component } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+
+export default class App extends Component {
+  state = {
+    message: "",
+    error: "",
+    eee: "",
+    text: ""
+  };
+
+  componentDidMount = () => this.fetchAPIMessage();
+
+  fetchAPIMessage = async () => {
+    try {
+      const res = await fetch(`/api/message`);
+      const { message } = await res.json();
+      this.setState({ message });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  render = () => (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>WELCOME CREATE REACT APP!</p>
+        <div className="App-link">{this.state.message}</div>
+      </header>
+    </div>
+  );
+}
+
+index.js (I added npm i -D morgan which is a handy logging framework -- when a request hits the API, it displays it in the console).
+
+const path = require("path");
+const express = require("express");
+const app = express();
+const morgan = require("morgan");
+
+app.use(morgan("tiny")); // logging framework
+
+// Serve our api message
+app.get("/api/message", async (req, res, next) => {
+  try {
+    res.status(201).json({ message: "HELLOOOOO FROM EXPRESS" });
+  } catch (err) {
+    next(err);
+  }
+});
+
+if (process.env.NODE_ENV === "production") {
+  // Express will serve up production assets
+  app.use(express.static("build"));
+
+  // Express will serve up the front-end index.html file if it doesn't recognize the route
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve("build", "index.html"))
+  );
+}
+
+// Choose the port and start the server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Mixing it up on port ${PORT}`));
+
+package.json (use node to serve production assets -- see "start" script)
+
+{
+  "name": "proxytest",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://proxytest2.herokuapp.com/",
+  "dependencies": {
+    "concurrently": "^4.0.1",
+    "express": "^4.16.4",
+    "http-proxy-middleware": "^0.19.0",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-scripts": "2.0.5",
+    "serve": "^10.0.2"
+  },
+  "scripts": {
+    "start": "NODE_ENV=production node index.js",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "client": "react-scripts start",
+    "server": "nodemon server",
+    "eject": "react-scripts eject",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "npm run build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
+
+What you'll see in the console when running in production:
+
+m6d@m6d-pc:~/Desktop/proxytest-master$ npm start
+
+> proxytest@0.1.0 start /home/m6d/Desktop/proxytest-master
+> NODE_ENV=production node index.js
+
+Mixing it up on port 5000
+GET / 200 2057 - 6.339 ms
+GET /static/css/main.068b9d02.chunk.css 304 - - 1.790 ms
+GET /static/js/1.9a879072.chunk.js 304 - - 0.576 ms
+GET /static/js/main.e3ba6603.chunk.js 304 - - 0.605 ms
+GET /api/message 201 36 - 4.299 ms
+GET /static/media/logo.5d5d9eef.svg 304 - - 0.358 ms
+
+Other notes:
+
+    Make sure to separate your client src from the API (for example, put everything from the front-end React application into a client folder with its own dependencies).
+    Remove any and all React dependencies from your API's package.json
+

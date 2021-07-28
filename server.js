@@ -1,21 +1,32 @@
 const express = require('express');
 const connectDB = require('./config/db');
+const path = require('path');
 
 const app = express();
 
 // Connect Database
 connectDB();
 
-// Init Middleware
+// Init Middleware for using the req.body object
 app.use(express.json({ extended: false }));
 
-app.get('/', (req, res) => {
+/* app.get('/', (req, res) => {
   res.json({ message: 'Welcome Messages...' });
-});
+}); */
 
 // Define Routes
 app.use('/api/persons', require('./routes/persons'));
 app.use('/api/messages', require('./routes/messages'));
+
+// Serve static assets in production
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static('build'));
+
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'build', 'index.html'))
+  );
+}
 
 const PORT = process.env.PORT || 5000;
 

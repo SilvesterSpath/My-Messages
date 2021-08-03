@@ -12,7 +12,7 @@ export const getTechs = () => async (dispatch) => {
   try {
     setLoading();
 
-    const res = await axios.get('api/persons');
+    const res = await axios.get('/api/persons');
     /* const data = await res.json(); */
 
     dispatch({
@@ -32,7 +32,7 @@ export const addTech = (person) => async (dispatch) => {
   try {
     setLoading();
 
-    const res = await fetch('api/persons', {
+    const res = await fetch('/api/persons', {
       method: 'POST',
       body: JSON.stringify(person),
       headers: {

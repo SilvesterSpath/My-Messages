@@ -8,6 +8,7 @@ import {
   CLEAR_CURRENT,
   UPDATE_LOG,
   SEARCH_LOGS,
+  CLEAR_FILTER,
 } from './types';
 import axios from 'axios';
 
@@ -30,7 +31,7 @@ export const getLogs = () => async (dispatch) => {
   try {
     setLoading();
 
-    const res = await axios.get('api/messages');
+    const res = await axios.get('/api/messages');
 
     dispatch({
       type: GET_LOGS,
@@ -49,7 +50,7 @@ export const addLog = (message) => async (dispatch) => {
   try {
     setLoading();
 
-    const res = await fetch('api/messages', {
+    const res = await fetch('/api/messages', {
       method: 'POST',
       body: JSON.stringify(message),
       headers: {
@@ -118,24 +119,14 @@ export const updateLog = (message) => async (dispatch) => {
   }
 };
 
-// Search logs
+// Filter Messages
 export const searchLogs = (text) => async (dispatch) => {
-  try {
-    setLoading();
+  dispatch({ type: SEARCH_LOGS, payload: text });
+};
 
-    const res = await fetch(`api/messages?q=${text}`);
-    const data = await res.json();
-
-    dispatch({
-      type: SEARCH_LOGS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: LOGS_ERROR,
-      payload: error.response.message,
-    });
-  }
+// Clear Filter
+export const clearFilter = () => async (dispatch) => {
+  dispatch({ type: CLEAR_FILTER });
 };
 
 // Set Current log

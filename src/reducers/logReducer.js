@@ -29,7 +29,7 @@ const logReducer = (state = initialState, action) => {
     case ADD_LOG:
       return {
         ...state,
-        messages: [...state.messages, action.payload],
+        messages: [action.payload, ...state.messages],
         loading: false,
       };
 
@@ -51,7 +51,10 @@ const logReducer = (state = initialState, action) => {
     case SEARCH_LOGS:
       return {
         ...state,
-        messages: action.payload,
+        messages: state.messages.filter((i) => {
+          const regex = new RegExp(`${action.payload}`, 'gi');
+          return i.message.match(regex) || i.person.match(regex);
+        }),
         loading: false,
       };
 

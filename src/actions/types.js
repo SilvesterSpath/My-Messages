@@ -11,4 +11,5 @@ export const SEARCH_LOGS = 'SEARCH_LOGS';
 export const GET_TECHS = 'GET_TECHS';
 export const ADD_TECH = 'ADD_TECH';
 export const DELETE_TECH = 'DELETE_TECH';
-export const TECHS_ERROR = 'GET_LOGS';
+export const TECHS_ERROR = 'TECHS_ERROR';
+export const CLEAR_FILTER = 'CLEAR_FILTER';

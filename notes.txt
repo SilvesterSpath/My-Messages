@@ -1,6 +1,7 @@
 mongodb+srv://swx76:<password>@messageboard.o5fne.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 
 
+https://www.semicolonworld.com/question/71559/deploying-create-react-app-to-heroku-with-express-backend-returns-invalid-host-header-in-browser
 
 Looks like they changed how the create-react-app utilizes a proxy. Remove the proxy from the package.json. Then...
 

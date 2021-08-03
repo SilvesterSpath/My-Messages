@@ -8,7 +8,7 @@ const Message = require('../models/Message');
 // @access Public
 router.get('/', async (req, res) => {
   try {
-    const messages = await Message.find({});
+    const messages = await Message.find({}).sort({ date: -1 });
     res.json(messages);
   } catch (error) {
     console.error(error.message);

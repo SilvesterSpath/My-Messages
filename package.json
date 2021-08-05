@@ -60,6 +60,5 @@
     "concurrently": "^6.2.0",
     "json-server": "^0.16.3",
     "nodemon": "^2.0.12"
-  },
-  "proxy": "http://localhost:5000/"
+  }
 }
